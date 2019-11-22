@@ -6,7 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.net.URL;
 
 public class Main extends Application {
@@ -14,7 +13,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         URL welcomePageUrl = ClassLoader.getSystemClassLoader().
-                getResource("welcomePage.fxml");
+                getResource("resource/welcomePage.fxml");
 
         Parent welcomePage = FXMLLoader.load(welcomePageUrl);
         primaryStage.setTitle("Friend Face Matcher");
