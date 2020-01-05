@@ -32,6 +32,10 @@ public class PropertiesLoader {
         return this.properties;
     }
 
+    public void save() {
+        this.save(this.properties);
+    }
+
     public void save(Properties prop) {
         try {
             OutputStream output = new FileOutputStream(this.resourceLoader.getPath(CONFIG_NAME_FILE));
@@ -50,5 +54,15 @@ public class PropertiesLoader {
         }
 
         return this.properties.getProperty(name);
+    }
+
+    public void set(String name, String value) {
+        if (this.properties == null) {
+            this.load();
+        }
+
+        this.properties.setProperty(name, value);
+
+        this.save();
     }
 }

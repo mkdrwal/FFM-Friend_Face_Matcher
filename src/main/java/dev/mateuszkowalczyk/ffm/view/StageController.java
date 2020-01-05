@@ -1,7 +1,7 @@
 package dev.mateuszkowalczyk.ffm.view;
 
-import dev.mateuszkowalczyk.ffm.utils.Property;
 import dev.mateuszkowalczyk.ffm.utils.PropertiesLoader;
+import dev.mateuszkowalczyk.ffm.utils.Property;
 import dev.mateuszkowalczyk.ffm.utils.ResourceLoader;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,17 +16,22 @@ public class StageController {
     private PropertiesLoader propertiesLoader = PropertiesLoader.getInstance();
     private Stage stage;
 
-    private StageController() {}
+    private StageController() {
+    }
 
     public static StageController getInstance() {
         return instance;
+    }
+
+    public Stage getStage() {
+        return stage;
     }
 
     public void initApp(Stage stage) throws IOException {
         this.stage = stage;
         this.stage.setTitle("Friend Face Matcher");
 
-        URL sceneUrl = null;
+        URL sceneUrl;
         if (this.propertiesLoader.get(Property.PATH_TO_DIRECTORY) != null) {
             sceneUrl = this.resourceLoader.getResource("welcomePage.fxml");
         } else {
