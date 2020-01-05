@@ -1,4 +1,4 @@
-package dev.mateuszkowalczyk.ffm.controller;
+package dev.mateuszkowalczyk.ffm.view.controller;
 
 import javafx.fxml.FXML;
 

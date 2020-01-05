@@ -1,24 +1,14 @@
 package dev.mateuszkowalczyk.ffm;
 
+import dev.mateuszkowalczyk.ffm.view.StageController;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.net.URL;
 
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        URL welcomePageUrl = getClass().getClassLoader().
-                getResource("welcomePage.fxml");
-
-        Parent welcomePage = FXMLLoader.load(welcomePageUrl);
-        primaryStage.setTitle("Friend Face Matcher");
-        primaryStage.setScene(new Scene(welcomePage));
-        primaryStage.show();
+    public void start(Stage stage) throws Exception{
+        StageController.getInstance().initApp(stage);
     }
 
 
