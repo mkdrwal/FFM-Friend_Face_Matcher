@@ -31,15 +31,20 @@ public class StageController {
         this.stage = stage;
         this.stage.setTitle("Friend Face Matcher");
 
-        URL sceneUrl;
+
         if (this.propertiesLoader.get(Property.PATH_TO_DIRECTORY) != null) {
-            sceneUrl = this.resourceLoader.getResource("welcomePage.fxml");
+           this.setScene(SceneEnum.MainPage);
         } else {
-            sceneUrl = this.resourceLoader.getResource("welcomePage.fxml");
+            this.setScene(SceneEnum.WelcomePage);
         }
+
+        this.stage.show();
+    }
+
+    public void setScene(SceneEnum sceneEnum) throws IOException {
+        URL sceneUrl = this.resourceLoader.getResource(sceneEnum.getPath());
         Scene scene = new Scene(FXMLLoader.load(sceneUrl));
         this.stage.setScene(scene);
-        this.stage.show();
     }
 
 }
