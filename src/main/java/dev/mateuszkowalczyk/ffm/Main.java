@@ -1,4 +1,4 @@
-package application;
+package dev.mateuszkowalczyk.ffm;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,8 +12,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        URL welcomePageUrl = ClassLoader.getSystemClassLoader().
-                getResource("resource/welcomePage.fxml");
+        URL welcomePageUrl = getClass().getClassLoader().
+                getResource("welcomePage.fxml");
 
         Parent welcomePage = FXMLLoader.load(welcomePageUrl);
         primaryStage.setTitle("Friend Face Matcher");
