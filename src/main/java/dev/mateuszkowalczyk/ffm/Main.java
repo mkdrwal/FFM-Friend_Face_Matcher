@@ -9,7 +9,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception{
-        var test = SceneEnum.WelcomePage;
 
         StageController.getInstance().initApp(stage);
     }

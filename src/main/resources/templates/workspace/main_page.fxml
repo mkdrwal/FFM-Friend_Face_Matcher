@@ -7,8 +7,8 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.VBox?>
-
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.mateuszkowalczyk.ffm.view.workspace.MainPageController">
    <left>
@@ -18,7 +18,7 @@
                <graphic>
                   <ImageView fitHeight="20.0" fitWidth="20.0">
                      <image>
-                        <Image url="@../../icons/dashboard.png" />
+                        <Image url="@../../icons/table_chart_black.png" />
                      </image>
                      <viewport>
                         <Rectangle2D />
@@ -33,9 +33,9 @@
       </VBox>
    </left>
    <center>
-      <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <ScrollPane fitToWidth="true" maxWidth="1.7976931348623157E308" prefHeight="200.0" BorderPane.alignment="CENTER">
          <content>
-            <VBox prefWidth="200.0" />
+            <FlowPane fx:id="imagesContainer" prefHeight="200.0" prefWidth="200.0" />
          </content>
       </ScrollPane>
    </center>
