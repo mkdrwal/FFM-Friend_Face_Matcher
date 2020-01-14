@@ -1,5 +1,7 @@
 package dev.mateuszkowalczyk.ffm.app;
 
+import dev.mateuszkowalczyk.ffm.data.database.image.Photo;
+import dev.mateuszkowalczyk.ffm.data.database.image.PhotoDAO;
 import dev.mateuszkowalczyk.ffm.utils.PropertiesLoader;
 import dev.mateuszkowalczyk.ffm.utils.Property;
 import javafx.application.Platform;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 public class DirectoryScanner implements Runnable {
     private WorkspaceService workspaceService = WorkspaceService.getInstance();
     private PropertiesLoader propertiesLoader = PropertiesLoader.getInstance();
+    private PhotoDAO photoDAO = new PhotoDAO();
 
     @Override
     public void run() {
@@ -34,7 +37,10 @@ public class DirectoryScanner implements Runnable {
                         if(this.isImagePath(filename)) {
                             ImageView imageView = new ImageView();
 
-                            InputStream inputStream = null;
+                            Photo photo = new Photo();
+                            photo.setPath(path.toString());
+
+                            this.photoDAO.save(photo);
 
                             Image image1 = new Image("file:" + path.toString(), 200, 200, false, true);
 

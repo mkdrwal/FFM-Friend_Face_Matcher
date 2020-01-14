@@ -13,7 +13,7 @@ public class PropertiesLoader {
     private ResourceLoader resourceLoader = ResourceLoader.getInstance();
     private Properties properties = null;
 
-    public PropertiesLoader () {}
+    private PropertiesLoader () {}
 
     public static PropertiesLoader getInstance() {
         return instance;

@@ -12,6 +12,10 @@ public class ResourceLoader {
         return getClass().getClassLoader().getResource(name);
     }
 
+    public String getPath() {
+        return this.getResource("").toString();
+    }
+
     public InputStream getResourceAsStream(String name) {
         return getClass().getClassLoader().getResourceAsStream( name);
     }
