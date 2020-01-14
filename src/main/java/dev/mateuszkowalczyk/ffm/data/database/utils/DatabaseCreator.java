@@ -1,7 +1,6 @@
-package dev.mateuszkowalczyk.ffm.data;
+package dev.mateuszkowalczyk.ffm.data.database.utils;
 
-import dev.mateuszkowalczyk.ffm.data.database.image.Photo;
-import dev.mateuszkowalczyk.ffm.data.database.utils.TableCreator;
+import dev.mateuszkowalczyk.ffm.data.database.photo.Photo;
 import dev.mateuszkowalczyk.ffm.utils.ResourceLoader;
 
 import java.sql.Connection;
@@ -32,6 +31,6 @@ public class DatabaseCreator {
     private void createTables(Connection connection) {
         TableCreator creator = new TableCreator(connection);
 
-        creator.create("photos", new Photo());
+        creator.create(Photo.class);
     }
 }

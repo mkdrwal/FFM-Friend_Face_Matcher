@@ -1,5 +1,6 @@
 package dev.mateuszkowalczyk.ffm.data;
 
+import dev.mateuszkowalczyk.ffm.data.database.utils.DatabaseCreator;
 import dev.mateuszkowalczyk.ffm.utils.ResourceLoader;
 
 import java.sql.Connection;

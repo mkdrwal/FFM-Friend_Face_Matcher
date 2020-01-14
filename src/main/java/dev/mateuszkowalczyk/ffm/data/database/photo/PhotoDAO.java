@@ -1,4 +1,4 @@
-package dev.mateuszkowalczyk.ffm.data.database.image;
+package dev.mateuszkowalczyk.ffm.data.database.photo;
 
 import dev.mateuszkowalczyk.ffm.data.DatabaseService;
 import dev.mateuszkowalczyk.ffm.data.database.Dao;

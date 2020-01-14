@@ -1,13 +1,13 @@
-package dev.mateuszkowalczyk.ffm.data.database.image;
+package dev.mateuszkowalczyk.ffm.data.database.photo;
 
 import dev.mateuszkowalczyk.ffm.data.database.annotation.Column;
 import dev.mateuszkowalczyk.ffm.data.database.annotation.PrimaryKey;
 import dev.mateuszkowalczyk.ffm.data.database.annotation.Table;
 
-@Table(name = "photo")
+@Table(name = "photos")
 public class Photo {
 
-    @Column
+    @Column(type = Column.Type.INT)
     @PrimaryKey
     private long id;
 

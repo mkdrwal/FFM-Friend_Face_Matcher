@@ -3,6 +3,7 @@ package dev.mateuszkowalczyk.ffm.data.database.utils;
 import dev.mateuszkowalczyk.ffm.data.DatabaseService;
 import dev.mateuszkowalczyk.ffm.data.database.annotation.Column;
 import dev.mateuszkowalczyk.ffm.data.database.annotation.PrimaryKey;
+import dev.mateuszkowalczyk.ffm.data.database.annotation.Table;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
@@ -13,17 +14,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TableCreator {
-
+    private TableMapper tableMapper = new TableMapper();
     private final Connection connection;
 
     public TableCreator(Connection connection) {
         this.connection = connection;
     }
 
-    public void create(String name, Object object) {
-        String sql = "CREATE TABLE IF NOT EXISTS " + name;
+    public void create(Class object) {
+        String sql = "CREATE TABLE IF NOT EXISTS " + this.tableMapper.getName(object);
 
-        Field[] fields = object.getClass().getDeclaredFields();
+        Field[] fields = object.getDeclaredFields();
 
         sql += this.addFields(fields);
 

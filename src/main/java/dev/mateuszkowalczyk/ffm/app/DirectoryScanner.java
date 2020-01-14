@@ -1,17 +1,14 @@
 package dev.mateuszkowalczyk.ffm.app;
 
-import dev.mateuszkowalczyk.ffm.data.database.image.Photo;
-import dev.mateuszkowalczyk.ffm.data.database.image.PhotoDAO;
+import dev.mateuszkowalczyk.ffm.data.database.photo.Photo;
+import dev.mateuszkowalczyk.ffm.data.database.photo.PhotoDAO;
 import dev.mateuszkowalczyk.ffm.utils.PropertiesLoader;
 import dev.mateuszkowalczyk.ffm.utils.Property;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
