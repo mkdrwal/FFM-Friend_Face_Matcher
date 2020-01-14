@@ -9,13 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CacheStructureChecker {
-    private String path = PropertiesLoader.getInstance().get(Property.PATH_TO_DIRECTORY) + "/.cache";
+    private String path;
     private List<String> listToCheck = new ArrayList<String>();
 
     public void check() {
-        this.setupPathsToCheck();
+         this.path = PropertiesLoader.getInstance().get(Property.PATH_TO_DIRECTORY);
 
-        this.listToCheck.forEach(s -> this.checkDirectory(s));
+        if (this.path != null) {
+            this.path += "/.cache";
+            this.setupPathsToCheck();
+            this.listToCheck.forEach(s -> this.checkDirectory(s));
+        }
     }
 
     private void setupPathsToCheck() {

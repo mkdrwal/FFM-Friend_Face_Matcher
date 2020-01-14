@@ -1,5 +1,6 @@
 package dev.mateuszkowalczyk.ffm.app;
 
+import dev.mateuszkowalczyk.ffm.app.cache.CacheService;
 import dev.mateuszkowalczyk.ffm.data.Chooser;
 import dev.mateuszkowalczyk.ffm.data.DatabaseService;
 import dev.mateuszkowalczyk.ffm.utils.PropertiesLoader;
@@ -14,6 +15,7 @@ public class WorkspaceService {
     private static final WorkspaceService instance = new WorkspaceService();
     private PropertiesLoader propertiesLoader = PropertiesLoader.getInstance();
     private DatabaseService databaseService = DatabaseService.getInstance();
+    private CacheService cacheService = CacheService.getInstance();
     private MainPageController mainPageController;
 
     private WorkspaceService() {
@@ -36,6 +38,7 @@ public class WorkspaceService {
         String path = chooser.chooseDirectory();
 
         this.propertiesLoader.set(Property.PATH_TO_DIRECTORY, path);
+        this.cacheService.check();
         try {
             StageController.getInstance().setScene(SceneEnum.MainPage);
         } catch (IOException e) {
