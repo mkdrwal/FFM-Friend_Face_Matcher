@@ -1,5 +1,6 @@
 package dev.mateuszkowalczyk.ffm.app;
 
+import dev.mateuszkowalczyk.ffm.app.cache.CacheService;
 import dev.mateuszkowalczyk.ffm.data.database.photo.Photo;
 import dev.mateuszkowalczyk.ffm.data.database.photo.PhotoDAO;
 import dev.mateuszkowalczyk.ffm.utils.PropertiesLoader;
@@ -8,6 +9,7 @@ import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -33,19 +35,17 @@ public class DirectoryScanner implements Runnable {
                         String filename = path.getFileName().toString();
                         if(this.isImagePath(filename)) {
                             ImageView imageView = new ImageView();
+                            String newImagePath = CacheService.getInstance().createCachedThumbnail(path.toString());
 
                             Photo photo = new Photo();
                             photo.setPath(path.toString());
-
+                            photo.setCachedPath(newImagePath);
                             this.photoDAO.save(photo);
 
-                            Image image1 = new Image("file:" + path.toString(), 200, 200, false, true);
+//                            Image image1 = new Image("file:" + path.toString(), 200, 200, false, true);
+                            Image image1 = new Image("file:" + newImagePath);
 
                             imageView.setImage(image1);
-                            imageView.setFitHeight(200);
-                            imageView.setFitWidth(200);
-                            imageView.setSmooth(true);
-                            imageView.setCache(true);
                             imageViews.add(imageView);
 
                             Platform.runLater(() -> WorkspaceService.getInstance().getMainPageController().addImage(imageView));
