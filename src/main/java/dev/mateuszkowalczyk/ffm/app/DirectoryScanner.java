@@ -21,7 +21,7 @@ public class DirectoryScanner implements Runnable {
     private WorkspaceService workspaceService = WorkspaceService.getInstance();
     private PropertiesLoader propertiesLoader = PropertiesLoader.getInstance();
     private ThumbnailService thumbnailService = new ThumbnailService();
-    private PhotoDAO photoDAO = new PhotoDAO();
+    private PhotoDAO photoDAO = PhotoDAO.getInstance();
 
     @Override
     public void run() {

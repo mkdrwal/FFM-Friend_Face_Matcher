@@ -2,6 +2,7 @@ package dev.mateuszkowalczyk.ffm.image;
 
 import dev.mateuszkowalczyk.ffm.app.cache.FacesCacheService;
 import dev.mateuszkowalczyk.ffm.data.database.face.Face;
+import dev.mateuszkowalczyk.ffm.data.database.face.FaceDAO;
 import dev.mateuszkowalczyk.ffm.data.database.photo.Photo;
 import dev.mateuszkowalczyk.ffm.utils.ResourceLoader;
 import org.opencv.core.Core;
@@ -19,7 +20,7 @@ import java.io.IOException;
 import static org.opencv.imgcodecs.Imgcodecs.imread;
 
 public class FaceDetector implements Runnable {
-
+    private FaceDAO faceDAO = FaceDAO.getInstance();
     private final Photo photo;
 
     public FaceDetector(Photo photo) {
@@ -47,10 +48,11 @@ public class FaceDetector implements Runnable {
             matOfRect.toList().forEach(rect -> {
                BufferedImage croppedImage = this.crop(bufferedImage, rect);
                 Face face = new Face();
+                face.setPhotoId(photo.getId());
                 FacesCacheService facesCacheService = new FacesCacheService(croppedImage);
                 facesCacheService.getPath(face);
                 facesCacheService.createCachedFace();
-
+                this.faceDAO.save(face);
             });
 
         } catch (IOException e) {

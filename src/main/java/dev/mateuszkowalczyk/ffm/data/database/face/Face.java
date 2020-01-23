@@ -18,8 +18,19 @@ public class Face {
     @Column
     private String path;
 
+    @Column(type = Column.Type.INT)
+    private long photoId;
+
     public Face() {
         this.name = UUID.randomUUID().toString();
+    }
+
+    public long getPhotoId() {
+        return photoId;
+    }
+
+    public void setPhotoId(long photoId) {
+        this.photoId = photoId;
     }
 
     public long getId() {
