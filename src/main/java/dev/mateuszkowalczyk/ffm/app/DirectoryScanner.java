@@ -2,6 +2,7 @@ package dev.mateuszkowalczyk.ffm.app;
 
 import dev.mateuszkowalczyk.ffm.data.database.photo.Photo;
 import dev.mateuszkowalczyk.ffm.data.database.photo.PhotoDAO;
+import dev.mateuszkowalczyk.ffm.image.FaceDetector;
 import dev.mateuszkowalczyk.ffm.image.ThumbnailService;
 import dev.mateuszkowalczyk.ffm.utils.PropertiesLoader;
 import dev.mateuszkowalczyk.ffm.utils.Property;
@@ -53,6 +54,10 @@ public class DirectoryScanner implements Runnable {
                                     }
                                 }
                             }
+
+                            new Thread(
+                                    new FaceDetector(photo)
+                            ).start();
 
                             ImageView imageView = new ImageView(wr);
                             imageViews.add(imageView);
