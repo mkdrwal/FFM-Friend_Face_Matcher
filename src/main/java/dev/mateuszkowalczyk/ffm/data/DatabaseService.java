@@ -32,10 +32,10 @@ public class DatabaseService {
 
     public void connect() {
         if (this.connection == null) {
-            String path = ResourceLoader.getInstance().getPath() + "app.db";
+            String path = ResourceLoader.getInstance().getPath("app.db");
 
             try {
-                this.connection = DriverManager.getConnection(path);
+                this.connection = DriverManager.getConnection("jdbc:sqlite:" + path);
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }

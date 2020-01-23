@@ -1,15 +1,16 @@
 package dev.mateuszkowalczyk.ffm.app;
 
-import dev.mateuszkowalczyk.ffm.app.cache.CacheService;
 import dev.mateuszkowalczyk.ffm.data.database.photo.Photo;
 import dev.mateuszkowalczyk.ffm.data.database.photo.PhotoDAO;
+import dev.mateuszkowalczyk.ffm.image.ThumbnailService;
 import dev.mateuszkowalczyk.ffm.utils.PropertiesLoader;
 import dev.mateuszkowalczyk.ffm.utils.Property;
 import javafx.application.Platform;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
 
-import java.io.File;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 public class DirectoryScanner implements Runnable {
     private WorkspaceService workspaceService = WorkspaceService.getInstance();
     private PropertiesLoader propertiesLoader = PropertiesLoader.getInstance();
+    private ThumbnailService thumbnailService = new ThumbnailService();
     private PhotoDAO photoDAO = new PhotoDAO();
 
     @Override
@@ -33,19 +35,26 @@ public class DirectoryScanner implements Runnable {
                     .filter(Files::isRegularFile)
                     .forEach(path -> {
                         String filename = path.getFileName().toString();
-                        if(this.isImagePath(filename)) {
-                            ImageView imageView = new ImageView();
-                            String newImagePath = CacheService.getInstance().createCachedThumbnail(path.toString());
-
+                        if(this.isImagePath(filename) && !path.toString().contains(".cache")) {
                             Photo photo = new Photo();
                             photo.setPath(path.toString());
-                            photo.setCachedPath(newImagePath);
+                            photo.setFileName(filename);
+
+                            BufferedImage image = this.thumbnailService.createThumbnail(photo);
                             this.photoDAO.save(photo);
 
-//                            Image image1 = new Image("file:" + path.toString(), 200, 200, false, true);
-                            Image image1 = new Image("file:" + newImagePath);
+                            WritableImage wr = null;
+                            if (image != null) {
+                                wr = new WritableImage(image.getWidth(), image.getHeight());
+                                PixelWriter pw = wr.getPixelWriter();
+                                for (int x = 0; x < image.getWidth(); x++) {
+                                    for (int y = 0; y < image.getHeight(); y++) {
+                                        pw.setArgb(x, y, image.getRGB(x, y));
+                                    }
+                                }
+                            }
 
-                            imageView.setImage(image1);
+                            ImageView imageView = new ImageView(wr);
                             imageViews.add(imageView);
 
                             Platform.runLater(() -> WorkspaceService.getInstance().getMainPageController().addImage(imageView));

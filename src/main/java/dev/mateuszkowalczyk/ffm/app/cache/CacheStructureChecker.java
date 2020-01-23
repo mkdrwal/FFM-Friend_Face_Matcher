@@ -1,10 +1,6 @@
 package dev.mateuszkowalczyk.ffm.app.cache;
 
-import dev.mateuszkowalczyk.ffm.utils.PropertiesLoader;
-import dev.mateuszkowalczyk.ffm.utils.Property;
-
 import java.io.File;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,19 +8,24 @@ public class CacheStructureChecker {
     private String path;
     private List<String> listToCheck = new ArrayList<String>();
 
+    public CacheStructureChecker() {}
+
     public void check() {
-         this.path = PropertiesLoader.getInstance().get(Property.PATH_TO_DIRECTORY);
+        this.check(CacheService.getInstance().getPath());
+    }
+
+    public void check(String path) {
+        this.path = path;
 
         if (this.path != null) {
-            this.path += "/.cache";
             this.setupPathsToCheck();
-            this.listToCheck.forEach(s -> this.checkDirectory(s));
+            this.listToCheck.forEach(this::checkDirectory);
         }
     }
 
     private void setupPathsToCheck() {
         this.listToCheck.add(this.path);
-        this.listToCheck.add(this.path + "/thumbnails");
+        this.listToCheck.add(this.path + ThumbnailCacheService.DIRECTORY_NAME);
     }
 
 

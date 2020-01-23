@@ -10,12 +10,20 @@ public class Photo {
     @Column(type = Column.Type.INT)
     @PrimaryKey
     private long id;
-
     @Column
     private String path;
-
+    @Column
+    private String fileName;
     @Column
     private String cachedPath;
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
     public long getId() {
         return id;
