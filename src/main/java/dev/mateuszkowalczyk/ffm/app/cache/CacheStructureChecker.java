@@ -26,6 +26,7 @@ public class CacheStructureChecker {
     private void setupPathsToCheck() {
         this.listToCheck.add(this.path);
         this.listToCheck.add(this.path + ThumbnailCacheService.DIRECTORY_NAME);
+        this.listToCheck.add(this.path + FacesCacheService.DIRECTORY_NAME);
     }
 
 

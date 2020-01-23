@@ -1,5 +1,7 @@
 package dev.mateuszkowalczyk.ffm.image;
 
+import dev.mateuszkowalczyk.ffm.app.cache.FacesCacheService;
+import dev.mateuszkowalczyk.ffm.data.database.face.Face;
 import dev.mateuszkowalczyk.ffm.data.database.photo.Photo;
 import dev.mateuszkowalczyk.ffm.utils.ResourceLoader;
 import org.opencv.core.Core;
@@ -44,6 +46,11 @@ public class FaceDetector implements Runnable {
 
             matOfRect.toList().forEach(rect -> {
                BufferedImage croppedImage = this.crop(bufferedImage, rect);
+                Face face = new Face();
+                FacesCacheService facesCacheService = new FacesCacheService(croppedImage);
+                facesCacheService.getPath(face);
+                facesCacheService.createCachedFace();
+
             });
 
         } catch (IOException e) {
