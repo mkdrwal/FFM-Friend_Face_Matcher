@@ -55,9 +55,11 @@ public class DirectoryScanner implements Runnable {
                                 }
                             }
 
-                            new Thread(
-                                    new FaceDetector(photo)
-                            ).start();
+//                            new Thread(
+//                                    new FaceDetector(photo)
+//                            ).start();
+
+                            new FaceDetector(photo).run();
 
                             ImageView imageView = new ImageView(wr);
                             imageViews.add(imageView);
