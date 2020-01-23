@@ -9,6 +9,7 @@ import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.Rect;
+import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 
 import javax.imageio.ImageIO;
@@ -37,10 +38,14 @@ public class FaceDetector implements Runnable {
     }
 
     private void detectFaces() {
-        CascadeClassifier cascadeClassifier = new CascadeClassifier(ResourceLoader.getInstance().getPath("haarcascade_frontalface_alt.xml"));
+        CascadeClassifier cascadeClassifier = new CascadeClassifier(ResourceLoader.getInstance().getPath("haarcascade_frontalface_alt2.xml"));
         Mat imageMat = imread(this.photo.getPath());
+        Mat imageGrey = new Mat();
+
+        Imgproc.cvtColor(imageMat, imageGrey, Imgproc.COLOR_RGB2GRAY);
+
         MatOfRect matOfRect = new MatOfRect();
-        cascadeClassifier.detectMultiScale(imageMat, matOfRect);
+        cascadeClassifier.detectMultiScale(imageGrey, matOfRect, 1.10, 6);
 
         try {
             BufferedImage bufferedImage = ImageIO.read(new File(this.photo.getPath()));
