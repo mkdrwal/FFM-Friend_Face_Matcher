@@ -4,6 +4,9 @@ import dev.mateuszkowalczyk.ffm.data.database.annotation.Column;
 import dev.mateuszkowalczyk.ffm.data.database.annotation.PrimaryKey;
 import dev.mateuszkowalczyk.ffm.data.database.annotation.Table;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 @Table(name = "photos")
 public class Photo {
 
@@ -16,6 +19,17 @@ public class Photo {
     private String fileName;
     @Column
     private String cachedPath;
+
+    public Photo() {
+
+    }
+
+    public Photo(ResultSet resultSet) throws SQLException {
+        this.id = resultSet.getInt("id");
+        this.path = resultSet.getString("path");
+        this.fileName = resultSet.getString("fileName");
+        this.cachedPath = resultSet.getString("cachedPath");
+    }
 
     public String getFileName() {
         return fileName;

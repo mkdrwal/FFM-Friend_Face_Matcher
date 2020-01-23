@@ -7,6 +7,7 @@ import dev.mateuszkowalczyk.ffm.image.ThumbnailService;
 import dev.mateuszkowalczyk.ffm.utils.PropertiesLoader;
 import dev.mateuszkowalczyk.ffm.utils.Property;
 import javafx.application.Platform;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
@@ -36,34 +37,46 @@ public class DirectoryScanner implements Runnable {
                     .filter(Files::isRegularFile)
                     .forEach(path -> {
                         String filename = path.getFileName().toString();
+                        ImageView imageView;
+
                         if(this.isImagePath(filename) && !path.toString().contains(".cache")) {
-                            Photo photo = new Photo();
-                            photo.setPath(path.toString());
-                            photo.setFileName(filename);
+                            Photo photo;
 
-                            BufferedImage image = this.thumbnailService.createThumbnail(photo);
-                            this.photoDAO.save(photo);
+                            photo = this.photoDAO.findByPath(path.toString());
 
-                            WritableImage wr = null;
-                            if (image != null) {
-                                wr = new WritableImage(image.getWidth(), image.getHeight());
-                                PixelWriter pw = wr.getPixelWriter();
-                                for (int x = 0; x < image.getWidth(); x++) {
-                                    for (int y = 0; y < image.getHeight(); y++) {
-                                        pw.setArgb(x, y, image.getRGB(x, y));
+                            if (photo == null) {
+                                photo = new Photo();
+
+                                photo.setPath(path.toString());
+                                photo.setFileName(filename);
+
+                                BufferedImage image = this.thumbnailService.createThumbnail(photo);
+                                this.photoDAO.save(photo);
+
+                                WritableImage wr = null;
+                                if (image != null) {
+                                    wr = new WritableImage(image.getWidth(), image.getHeight());
+                                    PixelWriter pw = wr.getPixelWriter();
+                                    for (int x = 0; x < image.getWidth(); x++) {
+                                        for (int y = 0; y < image.getHeight(); y++) {
+                                            pw.setArgb(x, y, image.getRGB(x, y));
+                                        }
                                     }
                                 }
-                            }
 
 //                            new Thread(
 //                                    new FaceDetector(photo)
 //                            ).start();
 
-                            new FaceDetector(photo).run();
+                                new FaceDetector(photo).run();
 
-                            ImageView imageView = new ImageView(wr);
-                            imageViews.add(imageView);
+                                imageView = new ImageView(wr);
+                                imageViews.add(imageView);
 
+                            } else {
+                                Image image = new Image("file:" + photo.getCachedPath());
+                                imageView = new ImageView(image);
+                            }
                             Platform.runLater(() -> WorkspaceService.getInstance().getMainPageController().addImage(imageView));
                         }
                     });

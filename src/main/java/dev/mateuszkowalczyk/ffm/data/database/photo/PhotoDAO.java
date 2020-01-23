@@ -53,6 +53,26 @@ public class PhotoDAO implements Dao<Photo> {
 
     }
 
+    public Photo findByPath(String path) {
+        String sql = "SELECT * FROM photos WHERE path = ?";
+        Photo photo = null;
+
+        try {
+            PreparedStatement preparedStatement = this.databaseService.getConnection().prepareStatement(sql);
+            preparedStatement.setString(1, path);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                photo = new Photo(resultSet);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return photo;
+    }
+
     @Override
     public void update(Photo photo) {
 
