@@ -22,6 +22,7 @@ import java.io.IOException;
 import static org.opencv.imgcodecs.Imgcodecs.imread;
 
 public class FaceDetector implements Runnable {
+    private FaceRecognition faceRecognition = new FaceRecognition();
     private FaceDAO faceDAO = FaceDAO.getInstance();
     private final Photo photo;
 
@@ -58,6 +59,9 @@ public class FaceDetector implements Runnable {
                 FacesCacheService facesCacheService = new FacesCacheService(croppedImage);
                 facesCacheService.getPath(face);
                 facesCacheService.createCachedFace();
+
+                this.faceRecognition.recognize(face);
+
                 this.faceDAO.add(face);
             });
 

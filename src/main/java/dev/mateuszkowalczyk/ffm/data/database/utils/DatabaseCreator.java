@@ -1,6 +1,7 @@
 package dev.mateuszkowalczyk.ffm.data.database.utils;
 
 import dev.mateuszkowalczyk.ffm.data.database.face.Face;
+import dev.mateuszkowalczyk.ffm.data.database.person.Person;
 import dev.mateuszkowalczyk.ffm.data.database.photo.Photo;
 import dev.mateuszkowalczyk.ffm.utils.ResourceLoader;
 
@@ -34,5 +35,6 @@ public class DatabaseCreator {
 
         creator.create(Photo.class);
         creator.create(Face.class);
+        creator.create(Person.class);
     }
 }

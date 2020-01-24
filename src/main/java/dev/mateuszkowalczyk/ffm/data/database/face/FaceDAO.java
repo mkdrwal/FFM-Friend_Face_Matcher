@@ -61,13 +61,14 @@ public class FaceDAO implements Dao<Face> {
 
     @Override
     public void add(Face face) {
-        String sql = "INSERT INTO face (name, path, photoId) values (?, ?, ?)";
+        String sql = "INSERT INTO face (name, path, photoId, personId) values (?, ?, ?, ?)";
 
         try {
             PreparedStatement preparedStatement = this.databaseService.getConnection().prepareStatement(sql);
             preparedStatement.setString(1, face.getName());
             preparedStatement.setString(2, face.getPath());
             preparedStatement.setLong(3, face.getPhotoId());
+            preparedStatement.setLong(4, face.getPersonId());
             preparedStatement.executeUpdate();
 
             sql = "SELECT id FROM face ORDER BY id DESC LIMIT 1";

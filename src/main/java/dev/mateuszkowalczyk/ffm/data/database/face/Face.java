@@ -24,7 +24,8 @@ public class Face {
 
     @Column(type = Column.Type.INT)
     private long photoId;
-
+    @Column(type = Column.Type.INT)
+    private long personId;
     private Mat faceToProcess;
 
     public Face() {
@@ -36,6 +37,15 @@ public class Face {
         this.name = resultSet.getString("name");
         this.path = resultSet.getString("path");
         this.photoId = resultSet.getInt("photoId");
+        this.personId = resultSet.getInt("personId");
+    }
+
+    public long getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(long personId) {
+        this.personId = personId;
     }
 
     public long getPhotoId() {
@@ -73,7 +83,7 @@ public class Face {
     public Mat getFaceToProcess() {
         if (this.faceToProcess == null) {
             FacesCacheService facesCacheService = new FacesCacheService();
-            this.faceToProcess = facesCacheService.readFaceToProcess(this.name);
+            this.faceToProcess = facesCacheService.readFaceToProcess(this);
         }
 
         return faceToProcess;

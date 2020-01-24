@@ -24,6 +24,13 @@ public class FacesCacheService implements Runnable {
 
     }
 
+    public Mat readFaceToProcess(Face face) {
+        Mat image = Imgcodecs.imread(face.getPath());
+        Imgproc.cvtColor(image, image, Imgproc.COLOR_RGB2GRAY);
+
+        return image;
+    }
+
     public Mat readFaceToProcess(String name) {
         Mat image = Imgcodecs.imread(this.cacheService.getPath() + DIRECTORY_NAME + "/" + name + ".JPG");
         Imgproc.cvtColor(image, image, Imgproc.COLOR_RGB2GRAY);
