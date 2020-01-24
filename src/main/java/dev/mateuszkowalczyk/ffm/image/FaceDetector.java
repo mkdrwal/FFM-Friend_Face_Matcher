@@ -9,6 +9,7 @@ import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.Rect;
+import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 
@@ -39,7 +40,7 @@ public class FaceDetector implements Runnable {
 
     private void detectFaces() {
         CascadeClassifier cascadeClassifier = new CascadeClassifier(ResourceLoader.getInstance().getPath("haarcascade_frontalface_alt2.xml"));
-        Mat imageMat = imread(this.photo.getPath());
+        Mat imageMat = Imgcodecs.imread(this.photo.getPath());
         Mat imageGrey = new Mat();
 
         Imgproc.cvtColor(imageMat, imageGrey, Imgproc.COLOR_RGB2GRAY);
@@ -57,7 +58,7 @@ public class FaceDetector implements Runnable {
                 FacesCacheService facesCacheService = new FacesCacheService(croppedImage);
                 facesCacheService.getPath(face);
                 facesCacheService.createCachedFace();
-                this.faceDAO.save(face);
+                this.faceDAO.add(face);
             });
 
         } catch (IOException e) {

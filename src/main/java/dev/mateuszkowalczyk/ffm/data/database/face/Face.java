@@ -1,9 +1,13 @@
 package dev.mateuszkowalczyk.ffm.data.database.face;
 
+import dev.mateuszkowalczyk.ffm.app.cache.FacesCacheService;
 import dev.mateuszkowalczyk.ffm.data.database.annotation.Column;
 import dev.mateuszkowalczyk.ffm.data.database.annotation.PrimaryKey;
 import dev.mateuszkowalczyk.ffm.data.database.annotation.Table;
+import org.opencv.core.Mat;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.UUID;
 
 @Table
@@ -21,8 +25,17 @@ public class Face {
     @Column(type = Column.Type.INT)
     private long photoId;
 
+    private Mat faceToProcess;
+
     public Face() {
         this.name = UUID.randomUUID().toString();
+    }
+
+    public Face(ResultSet resultSet) throws SQLException {
+        this.id = resultSet.getInt("id");
+        this.name = resultSet.getString("name");
+        this.path = resultSet.getString("path");
+        this.photoId = resultSet.getInt("photoId");
     }
 
     public long getPhotoId() {
@@ -55,5 +68,18 @@ public class Face {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public Mat getFaceToProcess() {
+        if (this.faceToProcess == null) {
+            FacesCacheService facesCacheService = new FacesCacheService();
+            this.faceToProcess = facesCacheService.readFaceToProcess(this.name);
+        }
+
+        return faceToProcess;
+    }
+
+    public void setFaceToProcess(Mat faceToProcess) {
+        this.faceToProcess = faceToProcess;
     }
 }

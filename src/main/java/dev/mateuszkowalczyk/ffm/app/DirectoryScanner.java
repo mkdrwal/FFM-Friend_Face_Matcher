@@ -51,7 +51,7 @@ public class DirectoryScanner implements Runnable {
                                 photo.setFileName(filename);
 
                                 BufferedImage image = this.thumbnailService.createThumbnail(photo);
-                                this.photoDAO.save(photo);
+                                this.photoDAO.add(photo);
 
                                 WritableImage wr = null;
                                 if (image != null) {

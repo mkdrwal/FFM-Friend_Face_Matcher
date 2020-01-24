@@ -6,6 +6,7 @@ import dev.mateuszkowalczyk.ffm.data.database.Dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 public class PhotoDAO implements Dao<Photo> {
@@ -29,7 +30,17 @@ public class PhotoDAO implements Dao<Photo> {
     }
 
     @Override
-    public void save(Photo photo) {
+    public List<Photo> getAll() {
+        return null;
+    }
+
+    @Override
+    public List<Photo> getAll(boolean refresh) {
+        return null;
+    }
+
+    @Override
+    public void add(Photo photo) {
 
         String sql = "INSERT INTO photos(path, fileName, cachedPath) values (?, ?, ?)";
 

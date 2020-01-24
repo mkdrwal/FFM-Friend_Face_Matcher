@@ -6,11 +6,14 @@ import dev.mateuszkowalczyk.ffm.data.database.Dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class FaceDAO implements Dao<Face> {
     private static FaceDAO instance;
     private DatabaseService databaseService = DatabaseService.getInstance();
+    private List<Face> faceList = new ArrayList<>();
 
     private FaceDAO() {
     }
@@ -29,7 +32,35 @@ public class FaceDAO implements Dao<Face> {
     }
 
     @Override
-    public void save(Face face) {
+    public List<Face> getAll() {
+        return this.getAll(false);
+    }
+
+    @Override
+    public List<Face> getAll(boolean refresh) {
+        if (this.faceList.size() == 0 || refresh) {
+            this.faceList.clear();
+
+            String sql = "SELECT * FROM face";
+
+            try {
+                ResultSet resultSet = this.databaseService.getConnection().prepareStatement(sql).executeQuery();
+
+                while (resultSet.next()) {
+                    Face face = new Face(resultSet);
+                    this.faceList.add(face);
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return this.faceList;
+    }
+
+    @Override
+    public void add(Face face) {
         String sql = "INSERT INTO face (name, path, photoId) values (?, ?, ?)";
 
         try {
@@ -46,6 +77,8 @@ public class FaceDAO implements Dao<Face> {
             while (resultSet.next()) {
                 face.setId(resultSet.getInt("id"));
             }
+
+            this.faceList.add(face);
 
         } catch (SQLException e) {
             e.printStackTrace();

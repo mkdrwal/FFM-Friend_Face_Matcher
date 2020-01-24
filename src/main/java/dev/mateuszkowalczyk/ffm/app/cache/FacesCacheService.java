@@ -1,6 +1,9 @@
 package dev.mateuszkowalczyk.ffm.app.cache;
 
 import dev.mateuszkowalczyk.ffm.data.database.face.Face;
+import org.opencv.core.Mat;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -9,11 +12,23 @@ import java.io.IOException;
 
 public class FacesCacheService implements Runnable {
     protected static final String DIRECTORY_NAME = "/faces";
-    private final BufferedImage faceImage;
+    private CacheService cacheService = CacheService.getInstance();
+    private BufferedImage faceImage;
     private String path;
 
-    public FacesCacheService (BufferedImage face) {
+    public FacesCacheService(BufferedImage face) {
         this.faceImage = face;
+    }
+
+    public FacesCacheService() {
+
+    }
+
+    public Mat readFaceToProcess(String name) {
+        Mat image = Imgcodecs.imread(this.cacheService.getPath() + DIRECTORY_NAME + "/" + name + ".JPG");
+        Imgproc.cvtColor(image, image, Imgproc.COLOR_RGB2GRAY);
+
+        return image;
     }
 
     @Override
