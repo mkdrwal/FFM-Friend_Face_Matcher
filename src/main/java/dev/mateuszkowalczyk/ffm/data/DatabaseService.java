@@ -1,15 +1,18 @@
 package dev.mateuszkowalczyk.ffm.data;
 
+import dev.mateuszkowalczyk.ffm.app.cache.CacheService;
 import dev.mateuszkowalczyk.ffm.data.database.utils.DatabaseCreator;
 import dev.mateuszkowalczyk.ffm.utils.ResourceLoader;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseService {
-    private static final DatabaseService instance = new DatabaseService();
     private ResourceLoader resourceLoader = ResourceLoader.getInstance();
+    private CacheService cacheService = CacheService.getInstance();
+    private static final DatabaseService instance = new DatabaseService();
     private Connection connection;
 
     private DatabaseService() {
@@ -17,10 +20,12 @@ public class DatabaseService {
     }
 
     private void checkIfDatabaseExists() {
-        var db = this.resourceLoader.getResource("app.db");
-        if (db == null) {
+        String path = this.cacheService.getPath("app.db");
+        var file = new File(path);
+
+        if (!file.exists()) {
             DatabaseCreator creator = new DatabaseCreator();
-            this.connection = creator.create();
+            this.connection = creator.create(path);
         } else {
             this.connect();
         }

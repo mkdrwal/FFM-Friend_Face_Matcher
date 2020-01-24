@@ -10,12 +10,13 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MainPageController implements Initializable {
-    private WorkspaceService workspaceService = WorkspaceService.getInstance();
+    private WorkspaceService workspaceService;
 
     @FXML
     private FlowPane imagesContainer;
 
     public MainPageController() {
+         this.workspaceService = WorkspaceService.getInstance();
         this.workspaceService.setMainPageController(this);
     }
 

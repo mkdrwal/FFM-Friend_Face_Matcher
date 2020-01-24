@@ -19,6 +19,10 @@ public class CacheService {
         return instance;
     }
 
+    public String getPath(String name) {
+        return this.getPath() + "/" + name;
+    }
+
     public String getPath() {
         return path;
     }

@@ -13,12 +13,13 @@ import javafx.application.Platform;
 import java.io.*;
 public class WorkspaceService {
     private static final WorkspaceService instance = new WorkspaceService();
-    private PropertiesLoader propertiesLoader = PropertiesLoader.getInstance();
-    private DatabaseService databaseService = DatabaseService.getInstance();
-    private CacheService cacheService = CacheService.getInstance();
+    private DatabaseService databaseService;
+    private CacheService cacheService;
     private MainPageController mainPageController;
 
     private WorkspaceService() {
+        this.cacheService = CacheService.getInstance();
+        this.databaseService =  DatabaseService.getInstance();
     }
 
     public static WorkspaceService getInstance() {
@@ -31,19 +32,6 @@ public class WorkspaceService {
 
     public void setMainPageController(MainPageController mainPageController) {
         this.mainPageController = mainPageController;
-    }
-
-    public void setupWorkspace() {
-        Chooser chooser = new Chooser();
-        String path = chooser.chooseDirectory();
-
-        this.propertiesLoader.set(Property.PATH_TO_DIRECTORY, path);
-        this.cacheService.check();
-        try {
-            StageController.getInstance().setScene(SceneEnum.MainPage);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public void refreshWorkspace() {
