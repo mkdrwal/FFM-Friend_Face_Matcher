@@ -3,6 +3,7 @@ package dev.mateuszkowalczyk.ffm.app;
 import dev.mateuszkowalczyk.ffm.app.cache.CacheService;
 import dev.mateuszkowalczyk.ffm.data.DatabaseService;
 import dev.mateuszkowalczyk.ffm.view.workspace.MainPageController;
+import dev.mateuszkowalczyk.ffm.view.workspace.elements.ImageContainerController;
 import javafx.application.Platform;
 import javafx.scene.image.ImageView;
 
@@ -11,6 +12,7 @@ public class WorkspaceService {
     private DatabaseService databaseService;
     private CacheService cacheService;
     private MainPageController mainPageController;
+    private ImageContainerController imagesContainerController;
 
     private WorkspaceService() {
         this.cacheService = CacheService.getInstance();
@@ -29,13 +31,21 @@ public class WorkspaceService {
         this.mainPageController = mainPageController;
     }
 
-    public void refreshWorkspace() {
-        Platform.runLater(() -> {this.getMainPageController().clearImages();});
-        var t = new Thread(new WorkspaceWrapper());
-        t.start();
+    public void loadImages() {
+        if (imagesContainerController != null) {
+            Platform.runLater(() -> {this.imagesContainerController.clearImages();});
+            var t = new Thread(new WorkspaceWrapper());
+            t.start();
+        } else {
+            System.out.println("Cannot load images if imagesContainerController isn't exists");
+        }
     }
 
     public void addImage(ImageView element) {
-        Platform.runLater(() -> this.mainPageController.addImage(element));
+        Platform.runLater(() -> this.imagesContainerController.addImage(element));
+    }
+
+    public void setImagesContainerController(ImageContainerController imageContainerController) {
+        this.imagesContainerController = imageContainerController;
     }
 }

@@ -16,6 +16,10 @@ public class StageController {
     private PropertiesLoader propertiesLoader = PropertiesLoader.getInstance();
     private Stage stage;
 
+    public enum elements {
+
+    }
+
     private StageController() {
     }
 
