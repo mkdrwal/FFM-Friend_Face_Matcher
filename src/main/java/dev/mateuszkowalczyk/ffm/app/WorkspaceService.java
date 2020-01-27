@@ -1,16 +1,11 @@
 package dev.mateuszkowalczyk.ffm.app;
 
 import dev.mateuszkowalczyk.ffm.app.cache.CacheService;
-import dev.mateuszkowalczyk.ffm.data.Chooser;
 import dev.mateuszkowalczyk.ffm.data.DatabaseService;
-import dev.mateuszkowalczyk.ffm.utils.PropertiesLoader;
-import dev.mateuszkowalczyk.ffm.utils.Property;
-import dev.mateuszkowalczyk.ffm.view.SceneEnum;
-import dev.mateuszkowalczyk.ffm.view.StageController;
 import dev.mateuszkowalczyk.ffm.view.workspace.MainPageController;
 import javafx.application.Platform;
+import javafx.scene.image.ImageView;
 
-import java.io.*;
 public class WorkspaceService {
     private static final WorkspaceService instance = new WorkspaceService();
     private DatabaseService databaseService;
@@ -36,7 +31,11 @@ public class WorkspaceService {
 
     public void refreshWorkspace() {
         Platform.runLater(() -> {this.getMainPageController().clearImages();});
-        var t = new Thread(new DirectoryScanner());
+        var t = new Thread(new WorkspaceWrapper());
         t.start();
+    }
+
+    public void addImage(ImageView element) {
+        Platform.runLater(() -> this.mainPageController.addImage(element));
     }
 }

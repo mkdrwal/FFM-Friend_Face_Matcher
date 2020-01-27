@@ -6,10 +6,12 @@ import dev.mateuszkowalczyk.ffm.data.database.Dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class PhotoDAO implements Dao<Photo> {
+    private List<Photo> photoList = new ArrayList<>();
     private static PhotoDAO instance;
     private DatabaseService databaseService = DatabaseService.getInstance();
 
@@ -31,12 +33,32 @@ public class PhotoDAO implements Dao<Photo> {
 
     @Override
     public List<Photo> getAll() {
-        return null;
+        return this.getAll(false);
     }
 
     @Override
     public List<Photo> getAll(boolean refresh) {
-        return null;
+        if (this.photoList.size() == 0 || refresh) {
+            this.photoList.clear();
+
+            String sql = "SELECT * FROM photos";
+
+            try {
+                PreparedStatement preparedStatement = this.databaseService.getConnection().prepareStatement(sql);
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                while (resultSet.next()) {
+                    var photo = new Photo(resultSet);
+
+                    this.photoList.add(photo);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        return this.photoList;
     }
 
     @Override
@@ -91,6 +113,15 @@ public class PhotoDAO implements Dao<Photo> {
 
     @Override
     public void delete(Photo photo) {
+        String sql = "DELETE FROM photos WHERE id = ?";
 
+        try {
+            PreparedStatement preparedStatement = this.databaseService.getConnection().prepareStatement(sql);
+            preparedStatement.setLong(1, photo.getId());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

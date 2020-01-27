@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class ThumbnailService {
+    ThumbnailCacheService thumbnailCacheService = ThumbnailCacheService.getInstance();
 
     public BufferedImage createThumbnail(Photo photo) {
         BufferedImage originalImage;
@@ -35,12 +36,8 @@ public class ThumbnailService {
             graphics2D.drawImage(originalImage, 0, 0, width, height, 0, 0, originalImage.getWidth(), originalImage.getHeight(), null);
             graphics2D.dispose();
 
-            ThumbnailCacheService thumbnailCacheService = new ThumbnailCacheService(image);
-            thumbnailCacheService.createPath(photo);
-
-            var t = new Thread(thumbnailCacheService);
-            t.start();
-
+            this.thumbnailCacheService.createPath(photo);
+            this.thumbnailCacheService.createCachedThumbnail(image);;
         } catch (IOException e) {
             e.printStackTrace();
         }

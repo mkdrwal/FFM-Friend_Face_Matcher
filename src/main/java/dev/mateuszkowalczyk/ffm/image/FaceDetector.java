@@ -21,21 +21,29 @@ import java.io.IOException;
 
 import static org.opencv.imgcodecs.Imgcodecs.imread;
 
-public class FaceDetector implements Runnable {
+public class FaceDetector {
     private FaceRecognition faceRecognition = new FaceRecognition();
     private FaceDAO faceDAO = FaceDAO.getInstance();
-    private final Photo photo;
+    private static FaceDetector instance;
+    private Photo photo;
 
-    public FaceDetector(Photo photo) {
-        this.photo = photo;
+    private FaceDetector() {
     }
 
     static {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     }
 
-    @Override
-    public void run() {
+    public static FaceDetector getInstance() {
+        if (instance == null) {
+            instance = new FaceDetector();
+        }
+
+        return instance;
+    }
+
+    public void run(Photo photo) {
+        this.photo = photo;
         this.detectFaces();
     }
 

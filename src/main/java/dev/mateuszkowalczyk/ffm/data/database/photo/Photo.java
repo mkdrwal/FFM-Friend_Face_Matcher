@@ -4,6 +4,7 @@ import dev.mateuszkowalczyk.ffm.data.database.annotation.Column;
 import dev.mateuszkowalczyk.ffm.data.database.annotation.PrimaryKey;
 import dev.mateuszkowalczyk.ffm.data.database.annotation.Table;
 
+import java.awt.image.BufferedImage;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -20,6 +21,8 @@ public class Photo {
     @Column
     private String cachedPath;
 
+    private BufferedImage bufferedImage;
+
     public Photo() {
 
     }
@@ -29,6 +32,18 @@ public class Photo {
         this.path = resultSet.getString("path");
         this.fileName = resultSet.getString("fileName");
         this.cachedPath = resultSet.getString("cachedPath");
+    }
+
+    public BufferedImage getBufferedImage() {
+        if (bufferedImage == null) {
+
+        }
+
+        return bufferedImage;
+    }
+
+    public void setBufferedImage(BufferedImage bufferedImage) {
+        this.bufferedImage = bufferedImage;
     }
 
     public String getFileName() {

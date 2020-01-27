@@ -21,6 +21,7 @@ import java.util.ArrayList;
 public class DirectoryScanner implements Runnable {
     private WorkspaceService workspaceService = WorkspaceService.getInstance();
     private PropertiesLoader propertiesLoader = PropertiesLoader.getInstance();
+    private FaceDetector faceDetector = FaceDetector.getInstance();
     private ThumbnailService thumbnailService = new ThumbnailService();
     private PhotoDAO photoDAO = PhotoDAO.getInstance();
 
@@ -64,20 +65,13 @@ public class DirectoryScanner implements Runnable {
                                     }
                                 }
 
-//                            new Thread(
-//                                    new FaceDetector(photo)
-//                            ).start();
-
-                                new FaceDetector(photo).run();
+                                this.faceDetector.run(photo);
 
                                 imageView = new ImageView(wr);
                                 imageViews.add(imageView);
 
-                            } else {
-                                Image image = new Image("file:" + photo.getCachedPath());
-                                imageView = new ImageView(image);
+                                Platform.runLater(() -> WorkspaceService.getInstance().addImage(imageView));
                             }
-                            Platform.runLater(() -> WorkspaceService.getInstance().getMainPageController().addImage(imageView));
                         }
                     });
         } catch (IOException e) {
@@ -94,9 +88,5 @@ public class DirectoryScanner implements Runnable {
             default:
                 return false;
         }
-    }
-
-    private void clearImages() {
-        this.workspaceService.getMainPageController().clearImages();
     }
 }
