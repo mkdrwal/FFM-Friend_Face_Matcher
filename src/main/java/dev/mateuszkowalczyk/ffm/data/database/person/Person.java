@@ -2,11 +2,13 @@ package dev.mateuszkowalczyk.ffm.data.database.person;
 
 import dev.mateuszkowalczyk.ffm.data.database.annotation.Column;
 import dev.mateuszkowalczyk.ffm.data.database.annotation.PrimaryKey;
+import dev.mateuszkowalczyk.ffm.data.database.annotation.Table;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
+@Table
 public class Person {
     @PrimaryKey
     @Column(type = Column.Type.INT)
