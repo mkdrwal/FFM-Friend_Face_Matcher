@@ -1,8 +1,9 @@
-package dev.mateuszkowalczyk.ffm.view.workspace.elements.people;
+package dev.mateuszkowalczyk.ffm.view.workspace.elements;
 
 import dev.mateuszkowalczyk.ffm.app.WorkspaceService;
 import dev.mateuszkowalczyk.ffm.app.people.PeopleWorkspace;
 import dev.mateuszkowalczyk.ffm.data.database.person.Person;
+import dev.mateuszkowalczyk.ffm.view.workspace.MainPageController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -13,13 +14,15 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class PeopleContainerController implements Initializable {
+    private final MainPageController mainPageController;
     private PeopleWorkspace peopleWorkspace = PeopleWorkspace.getInstance();
     private Integer numberOfAdded = 0;
 
     @FXML
     public GridPane peopleContainer;
 
-    public PeopleContainerController() {
+    public PeopleContainerController(MainPageController mainPageController) {
+        this.mainPageController = mainPageController;
         System.out.println("people container");;
     }
 
@@ -38,7 +41,6 @@ public class PeopleContainerController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.peopleWorkspace.setPeopleContainerController(this);
-        this.peopleWorkspace.loadPeople();
+        this.peopleWorkspace.loadPeople(mainPageController, this);
     }
 }

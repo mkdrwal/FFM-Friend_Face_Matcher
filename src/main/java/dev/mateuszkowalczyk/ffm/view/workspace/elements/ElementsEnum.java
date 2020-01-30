@@ -2,7 +2,8 @@ package dev.mateuszkowalczyk.ffm.view.workspace.elements;
 
 public enum ElementsEnum {
     ImagesContainer("templates/workspace/elements/image_container.fxml"),
-    People("templates/workspace/elements/people.fxml");
+    PeopleContainer("templates/workspace/elements/people_container.fxml"),
+    PersonFaceContainer("templates/workspace/elements/face_container.fxml");
 
     private String path;
 

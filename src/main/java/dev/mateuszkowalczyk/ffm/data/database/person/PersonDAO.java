@@ -39,6 +39,7 @@ public class PersonDAO implements Dao<Person> {
     @Override
     public List<Person> getAll(boolean refresh) {
         if (this.personList.size() == 0 || refresh) {
+            this.personList.clear();
             String sql = "SELECT * FROM persons";
             try {
                 PreparedStatement preparedStatement = this.databaseService.getConnection().prepareStatement(sql);
@@ -86,6 +87,16 @@ public class PersonDAO implements Dao<Person> {
 
     @Override
     public void delete(Person person) {
+        String sql = "DELETE FROM persons WHERE id = ?";
 
+        try {
+            PreparedStatement preparedStatement = this.databaseService.getConnection().prepareStatement(sql);
+            preparedStatement.setLong(1, person.getId());
+
+            preparedStatement.executeUpdate();
+            this.getAll(true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -94,11 +94,23 @@ public class FaceDAO implements Dao<Face> {
 
     @Override
     public void delete(Face face) {
+        String sql = "DELETE FROM face where id = ?";
 
+        try {
+            PreparedStatement preparedStatement = this.databaseService.getConnection().prepareStatement(sql);
+            preparedStatement.setLong(1, face.getId());
+
+            preparedStatement.executeUpdate();
+
+            this.getAll(true);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public Face getFirstFace(Person person) {
-        String sql = "SELECT * FROM face WHERE face.personId = :personId LIMIT 1";
+        String sql = "SELECT * FROM face WHERE face.personId = ? LIMIT 1";
 
         try {
             PreparedStatement preparedStatement = this.databaseService.getConnection().prepareStatement(sql);
@@ -117,5 +129,28 @@ public class FaceDAO implements Dao<Face> {
         }
 
         return null;
+    }
+
+    public List<Face> getAllForPerson(Person person) {
+        List<Face> personFaceList = new ArrayList<>();
+
+        String sql = "SELECT * FROM face WHERE personId = ?";
+
+        try {
+            PreparedStatement preparedStatement = this.databaseService.getConnection().prepareStatement(sql);
+            preparedStatement.setLong(1, person.getId());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Face face = new Face(resultSet);
+                personFaceList.add(face);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return personFaceList;
     }
 }
