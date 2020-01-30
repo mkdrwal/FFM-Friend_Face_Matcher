@@ -59,4 +59,16 @@ public class FacesCacheService implements Runnable {
             }
         }
     }
+
+    public BufferedImage getFaceImage(Face face) {
+        File file = new File(face.getPath());
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return image;
+    }
 }

@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 
 public class PeopleContainerController implements Initializable {
     private PeopleWorkspace peopleWorkspace = PeopleWorkspace.getInstance();
+    private Integer numberOfAdded = 0;
 
     @FXML
     public GridPane peopleContainer;
@@ -23,7 +24,16 @@ public class PeopleContainerController implements Initializable {
     }
 
     public void addPerson(Node node, int i) {
-        this.peopleContainer.getChildren().add(i, node);
+        this.peopleContainer.add(node, getX(), getY());
+        numberOfAdded++;
+    }
+
+    public Integer getX() {
+        return this.numberOfAdded % 2;
+    }
+
+    public Integer getY() {
+        return (Integer) this.numberOfAdded / 2;
     }
 
     @Override

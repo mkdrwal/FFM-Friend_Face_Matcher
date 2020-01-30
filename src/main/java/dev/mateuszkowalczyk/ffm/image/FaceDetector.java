@@ -55,7 +55,7 @@ public class FaceDetector {
         Imgproc.cvtColor(imageMat, imageGrey, Imgproc.COLOR_RGB2GRAY);
 
         MatOfRect matOfRect = new MatOfRect();
-        cascadeClassifier.detectMultiScale(imageGrey, matOfRect, 1.10, 6);
+        cascadeClassifier.detectMultiScale(imageGrey, matOfRect, 1.10, 8);
 
         try {
             BufferedImage bufferedImage = ImageIO.read(new File(this.photo.getPath()));

@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
-@Table
+@Table(name = "persons")
 public class Person {
     @PrimaryKey
     @Column(type = Column.Type.INT)

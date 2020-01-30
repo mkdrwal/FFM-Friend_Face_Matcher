@@ -34,7 +34,7 @@ public class WorkspaceService {
     public void loadImages() {
         if (imagesContainerController != null) {
             Platform.runLater(() -> {this.imagesContainerController.clearImages();});
-            var t = new Thread(new WorkspaceWrapper());
+            var t = new Thread(WorkspaceWrapper.getInstance());
             t.start();
         } else {
             System.out.println("Cannot load images if imagesContainerController isn't exists");

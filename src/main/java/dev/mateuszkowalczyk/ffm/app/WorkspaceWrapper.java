@@ -6,20 +6,29 @@ import dev.mateuszkowalczyk.ffm.data.database.photo.PhotoDAO;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.List;
 
 public class WorkspaceWrapper implements Runnable {
+    private static WorkspaceWrapper instance = new WorkspaceWrapper();
     private PhotoDAO photoDAO = PhotoDAO.getInstance();
     private ThumbnailCacheService thumbnailCacheService = ThumbnailCacheService.getInstance();
     private WorkspaceService workspaceService = WorkspaceService.getInstance();
+    private Thread directoryScannerThread;
+
+    private WorkspaceWrapper () {}
 
     @Override
     public void run() {
         this.setFromDatabase();
-        new DirectoryScanner().run();
+
+        if (this.directoryScannerThread == null || !this.directoryScannerThread.isAlive()) {
+            this.directoryScannerThread = new Thread(new DirectoryScanner());
+            this.directoryScannerThread.start();
+        }
+    }
+
+    public static WorkspaceWrapper getInstance() {
+        return instance;
     }
 
     private void setFromDatabase() {

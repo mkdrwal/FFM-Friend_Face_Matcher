@@ -2,6 +2,7 @@ package dev.mateuszkowalczyk.ffm.data.database.face;
 
 import dev.mateuszkowalczyk.ffm.data.DatabaseService;
 import dev.mateuszkowalczyk.ffm.data.database.Dao;
+import dev.mateuszkowalczyk.ffm.data.database.person.Person;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -94,5 +95,27 @@ public class FaceDAO implements Dao<Face> {
     @Override
     public void delete(Face face) {
 
+    }
+
+    public Face getFirstFace(Person person) {
+        String sql = "SELECT * FROM face WHERE face.personId = :personId LIMIT 1";
+
+        try {
+            PreparedStatement preparedStatement = this.databaseService.getConnection().prepareStatement(sql);
+            preparedStatement.setLong(1, person.getId());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            Face face = null;
+            while(resultSet.next()) {
+                face = new Face(resultSet);
+
+                return face;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

@@ -6,6 +6,7 @@ import dev.mateuszkowalczyk.ffm.data.database.annotation.PrimaryKey;
 import dev.mateuszkowalczyk.ffm.data.database.annotation.Table;
 import org.opencv.core.Mat;
 
+import java.awt.image.BufferedImage;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
@@ -24,9 +25,13 @@ public class Face {
 
     @Column(type = Column.Type.INT)
     private long photoId;
+
     @Column(type = Column.Type.INT)
     private long personId;
+
     private Mat faceToProcess;
+
+    private BufferedImage faceImage;
 
     public Face() {
         this.name = UUID.randomUUID().toString();
@@ -89,7 +94,21 @@ public class Face {
         return faceToProcess;
     }
 
+
     public void setFaceToProcess(Mat faceToProcess) {
         this.faceToProcess = faceToProcess;
+    }
+
+    public BufferedImage getFaceImage() {
+        if (this.faceImage == null) {
+            FacesCacheService facesCacheService = new FacesCacheService();
+            this.faceImage = facesCacheService.getFaceImage(this);
+        }
+
+        return faceImage;
+    }
+
+    public void setFaceImage(BufferedImage faceImage) {
+        this.faceImage = faceImage;
     }
 }

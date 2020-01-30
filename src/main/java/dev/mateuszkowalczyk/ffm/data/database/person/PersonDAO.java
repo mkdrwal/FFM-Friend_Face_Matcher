@@ -2,6 +2,7 @@ package dev.mateuszkowalczyk.ffm.data.database.person;
 
 import dev.mateuszkowalczyk.ffm.data.DatabaseService;
 import dev.mateuszkowalczyk.ffm.data.database.Dao;
+import dev.mateuszkowalczyk.ffm.data.database.face.Face;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,7 +39,7 @@ public class PersonDAO implements Dao<Person> {
     @Override
     public List<Person> getAll(boolean refresh) {
         if (this.personList.size() == 0 || refresh) {
-            String sql = "SELECT * FROM person";
+            String sql = "SELECT * FROM persons";
             try {
                 PreparedStatement preparedStatement = this.databaseService.getConnection().prepareStatement(sql);
                 ResultSet resultSet = preparedStatement.executeQuery();
@@ -57,14 +58,14 @@ public class PersonDAO implements Dao<Person> {
 
     @Override
     public void add(Person person) {
-        String sql = "INSERT INTO person (name) values(?)";
+        String sql = "INSERT INTO persons (name) values(?)";
 
         try {
             PreparedStatement preparedStatement = databaseService.getConnection().prepareStatement(sql);
             preparedStatement.setString(1, person.getName());
             preparedStatement.executeUpdate();
 
-            sql = "SELECT id FROM person ORDER BY id DESC LIMIT 1";
+            sql = "SELECT id FROM persons ORDER BY id DESC LIMIT 1";
 
             ResultSet resultSet = databaseService.getConnection().prepareStatement(sql).executeQuery();
 
