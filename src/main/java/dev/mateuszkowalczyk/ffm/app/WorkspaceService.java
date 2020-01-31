@@ -2,6 +2,7 @@ package dev.mateuszkowalczyk.ffm.app;
 
 import dev.mateuszkowalczyk.ffm.app.cache.CacheService;
 import dev.mateuszkowalczyk.ffm.data.DatabaseService;
+import dev.mateuszkowalczyk.ffm.data.database.person.Person;
 import dev.mateuszkowalczyk.ffm.view.workspace.MainPageController;
 import dev.mateuszkowalczyk.ffm.view.workspace.elements.ImageContainerController;
 import javafx.application.Platform;
@@ -31,10 +32,12 @@ public class WorkspaceService {
         this.mainPageController = mainPageController;
     }
 
-    public void loadImages() {
+    public void loadImages(Person person) {
         if (imagesContainerController != null) {
             Platform.runLater(() -> {this.imagesContainerController.clearImages();});
-            var t = new Thread(WorkspaceWrapper.getInstance());
+            var workspaceWrapper = WorkspaceWrapper.getInstance();
+            workspaceWrapper.setPerson(person);
+            var t = new Thread(workspaceWrapper);
             t.start();
         } else {
             System.out.println("Cannot load images if imagesContainerController isn't exists");

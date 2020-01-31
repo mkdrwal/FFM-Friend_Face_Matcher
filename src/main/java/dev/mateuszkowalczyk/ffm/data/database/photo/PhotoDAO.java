@@ -2,6 +2,7 @@ package dev.mateuszkowalczyk.ffm.data.database.photo;
 
 import dev.mateuszkowalczyk.ffm.data.DatabaseService;
 import dev.mateuszkowalczyk.ffm.data.database.Dao;
+import dev.mateuszkowalczyk.ffm.data.database.person.Person;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -123,5 +124,27 @@ public class PhotoDAO implements Dao<Photo> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Photo> getAllForPerson(Person person) {
+        List<Photo> photoListForPerson = new ArrayList<>();
+
+        String sql = "SELECT * FROM photos p inner join face f on p.id == f.photoId WHERE f.personId  = ?";
+
+        try {
+            PreparedStatement preparedStatement = this.databaseService.getConnection().prepareStatement(sql);
+            preparedStatement.setLong(1, person.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                var photo = new Photo(resultSet);
+
+                photoListForPerson.add(photo);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return photoListForPerson;
     }
 }

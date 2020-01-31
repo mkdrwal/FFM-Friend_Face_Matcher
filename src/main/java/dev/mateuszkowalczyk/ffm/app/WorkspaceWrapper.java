@@ -1,6 +1,7 @@
 package dev.mateuszkowalczyk.ffm.app;
 
 import dev.mateuszkowalczyk.ffm.app.cache.ThumbnailCacheService;
+import dev.mateuszkowalczyk.ffm.data.database.person.Person;
 import dev.mateuszkowalczyk.ffm.data.database.photo.Photo;
 import dev.mateuszkowalczyk.ffm.data.database.photo.PhotoDAO;
 import javafx.scene.image.Image;
@@ -14,6 +15,7 @@ public class WorkspaceWrapper implements Runnable {
     private ThumbnailCacheService thumbnailCacheService = ThumbnailCacheService.getInstance();
     private WorkspaceService workspaceService = WorkspaceService.getInstance();
     private Thread directoryScannerThread;
+    private Person person;
 
     private WorkspaceWrapper () {}
 
@@ -32,7 +34,12 @@ public class WorkspaceWrapper implements Runnable {
     }
 
     private void setFromDatabase() {
-        List<Photo> photoList = this.photoDAO.getAll();
+        List<Photo> photoList;
+        if (this.person == null) {
+            photoList = this.photoDAO.getAll();
+        } else {
+            photoList = this.photoDAO.getAllForPerson(person);
+        }
 
         photoList.forEach(photo -> {
             var element = this.createImageViewElement(photo);
@@ -48,4 +55,7 @@ public class WorkspaceWrapper implements Runnable {
     }
 
 
+    public void setPerson(Person person) {
+        this.person = person;
+    }
 }

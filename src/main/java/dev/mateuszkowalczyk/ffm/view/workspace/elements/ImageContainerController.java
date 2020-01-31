@@ -1,6 +1,7 @@
 package dev.mateuszkowalczyk.ffm.view.workspace.elements;
 
 import dev.mateuszkowalczyk.ffm.app.WorkspaceService;
+import dev.mateuszkowalczyk.ffm.data.database.person.Person;
 import dev.mateuszkowalczyk.ffm.data.database.photo.PhotoDAO;
 import dev.mateuszkowalczyk.ffm.view.workspace.MainPageController;
 import javafx.event.Event;
@@ -17,13 +18,20 @@ public class ImageContainerController implements Initializable {
 
     @FXML
     private FlowPane imagesContainer;
+    private Person person;
 
-    public ImageContainerController(MainPageController mainPageController) { }
+    public ImageContainerController(MainPageController mainPageController) {
+        this.person = null;
+    }
+
+    public ImageContainerController(MainPageController mainPageController, Person person) {
+        this.person = person;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         workspaceService.setImagesContainerController(this);
-        workspaceService.loadImages();
+        workspaceService.loadImages(this.person);
     }
 
     public void clearImages() {
@@ -34,7 +42,7 @@ public class ImageContainerController implements Initializable {
 
     public void forceRefresh(Event event) {
         PhotoDAO.getInstance().getAll(true);
-        this.workspaceService.loadImages();
+        this.workspaceService.loadImages(this.person);
     }
 
     public void addImage(ImageView imageView) {

@@ -47,6 +47,10 @@ public class FaceContainerController implements Initializable {
         PersonDAO.getInstance().update(person);
     }
 
+    public void showPhotosForPerson(Event event) {
+        this.mainPageController.showPhotosForPerson(this.person);
+    }
+
     public void refresh() {
         this.facesContainer.getChildren().clear();
         try {

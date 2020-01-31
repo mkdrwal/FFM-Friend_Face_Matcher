@@ -23,6 +23,7 @@ public class MainPageController implements Initializable {
     @FXML
     private ScrollPane mainContainer;
     private Person selectedPerson;
+    private Person person;
 
     public MainPageController() {
          this.workspaceService = WorkspaceService.getInstance();
@@ -39,6 +40,9 @@ public class MainPageController implements Initializable {
             Object controller = null;
             FXMLLoader fxmlLoader = new FXMLLoader();
             switch (element) {
+                case ImagesContainerForPerson:
+                    controller = new ImageContainerController(this, this.person);
+                    break;
                 case ImagesContainer:
                     controller = new ImageContainerController(this);
                     break;
@@ -68,5 +72,10 @@ public class MainPageController implements Initializable {
     public void openFacesSelectedPerson(Person person) {
         this.selectedPerson = person;
         this.setElement(ElementsEnum.PersonFaceContainer);
+    }
+
+    public void showPhotosForPerson(Person person) {
+        this.person = person;
+        this.setElement(ElementsEnum.ImagesContainerForPerson);
     }
 }

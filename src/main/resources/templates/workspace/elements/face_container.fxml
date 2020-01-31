@@ -14,7 +14,8 @@
       <ToolBar prefHeight="40.0" prefWidth="3485.0" BorderPane.alignment="CENTER">
         <items>
             <TextField fx:id="personName" />
-            <Button mnemonicParsing="false" onAction="#updatePersonName" text="Button" />
+            <Button mnemonicParsing="false" onAction="#updatePersonName" text="change" />
+            <Button mnemonicParsing="false" onAction="#showPhotosForPerson" text="Show photos" />
         </items>
       </ToolBar>
    </top>
