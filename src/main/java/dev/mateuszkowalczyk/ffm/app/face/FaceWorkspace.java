@@ -4,8 +4,10 @@ import dev.mateuszkowalczyk.ffm.app.exception.NotFoundException;
 import dev.mateuszkowalczyk.ffm.data.database.face.Face;
 import dev.mateuszkowalczyk.ffm.data.database.face.FaceDAO;
 import dev.mateuszkowalczyk.ffm.data.database.person.Person;
+import dev.mateuszkowalczyk.ffm.data.database.person.PersonDAO;
 import dev.mateuszkowalczyk.ffm.utils.ResourceLoader;
 import dev.mateuszkowalczyk.ffm.view.workspace.MainPageController;
+import dev.mateuszkowalczyk.ffm.view.workspace.elements.ElementsEnum;
 import dev.mateuszkowalczyk.ffm.view.workspace.elements.FaceContainerController;
 import dev.mateuszkowalczyk.ffm.view.workspace.elements.FacePaneController;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +24,7 @@ public class FaceWorkspace {
 
     public void loadFacesForPerson(MainPageController mainPageController, FaceContainerController faceContainerController, Person person) throws NotFoundException {
         List<Face> faceList = FaceDAO.getInstance().getAllForPerson(person);
+        List<Person> personList = PersonDAO.getInstance().getAll(true);
         var resourceLoader = ResourceLoader.getInstance();
 
         if (faceList.size() == 0) {
@@ -31,7 +34,9 @@ public class FaceWorkspace {
         for (Face face : faceList) {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(resourceLoader.getResource("templates/workspace/elements/face_pane.fxml"));
-            fxmlLoader.setController(new FacePaneController(mainPageController, faceContainerController, face));
+            var controller = new FacePaneController(mainPageController, faceContainerController, face);
+            controller.setPersonList(personList);
+            fxmlLoader.setController(controller);
 
             try {
                 faceContainerController.addFacePane(fxmlLoader.load());

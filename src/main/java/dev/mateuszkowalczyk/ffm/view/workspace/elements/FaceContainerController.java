@@ -2,13 +2,14 @@ package dev.mateuszkowalczyk.ffm.view.workspace.elements;
 
 import dev.mateuszkowalczyk.ffm.app.exception.NotFoundException;
 import dev.mateuszkowalczyk.ffm.app.face.FaceWorkspace;
-import dev.mateuszkowalczyk.ffm.data.database.face.FaceDAO;
 import dev.mateuszkowalczyk.ffm.data.database.person.Person;
 import dev.mateuszkowalczyk.ffm.data.database.person.PersonDAO;
 import dev.mateuszkowalczyk.ffm.view.workspace.MainPageController;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 
 import java.net.URL;
@@ -20,6 +21,9 @@ public class FaceContainerController implements Initializable {
 
     @FXML
     private FlowPane facesContainer;
+
+    @FXML
+    private TextField personName;
 
     public FaceContainerController(MainPageController mainPageController, Person person) {
         this.mainPageController = mainPageController;
@@ -34,6 +38,13 @@ public class FaceContainerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.refresh();
+        this.personName.setText(person.getName());
+    }
+
+    public void updatePersonName(Event event) {
+        this.person.setName(this.personName.getText());
+
+        PersonDAO.getInstance().update(person);
     }
 
     public void refresh() {

@@ -16,8 +16,8 @@ public class FaceRecognition {
     private FaceDAO faceDAO = FaceDAO.getInstance();
 
     public void recognize(Face faceToRecognize) {
-        List<Face> faceList = faceDAO.getAll();
-        List<Person> personList = personDAO.getAll();
+        List<Face> faceList = faceDAO.getAll(true);
+        List<Person> personList = personDAO.getAll(true);
         ArrayList<Mat> facesImages = new ArrayList<>();
         ArrayList<Integer> faceImagesIndex = new ArrayList<>();
         Person person;

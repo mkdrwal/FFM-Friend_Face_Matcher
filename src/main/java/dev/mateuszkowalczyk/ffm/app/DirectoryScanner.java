@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 public class DirectoryScanner implements Runnable {
     private WorkspaceService workspaceService = WorkspaceService.getInstance();
@@ -82,11 +83,29 @@ public class DirectoryScanner implements Runnable {
     }
 
     private boolean isImagePath(String filename) {
-        switch (filename.substring(filename.length() - 3).toLowerCase()) {
-            case "jpg":
+        List<String> whiteListExtension = new ArrayList<String>();
+        whiteListExtension.add("jpg");
+        whiteListExtension.add("jpeg");
+        whiteListExtension.add("png");
+
+        for (String extension: whiteListExtension) {
+            var fileExtension = filename.substring(filename.length() - extension.length());
+
+            if (fileExtension.toLowerCase().equals(extension)){
                 return true;
-            default:
-                return false;
+            }
         }
+
+        return false;
+
+//        filename.endsWith("jpeg");
+//
+//        switch (filename.substring(filename.length() - 3).toLowerCase()) {
+//            case "jpeg":
+//            case "jpg":
+//                return true;
+//            default:
+//                return false;
+//        }
     }
 }

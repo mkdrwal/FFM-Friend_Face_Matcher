@@ -82,7 +82,20 @@ public class PersonDAO implements Dao<Person> {
 
     @Override
     public void update(Person person) {
+        String sql = "UPDATE persons SET name = ? WHERE id = ?";
 
+        try {
+            PreparedStatement preparedStatement = this.databaseService.getConnection().prepareStatement(sql);
+            preparedStatement.setString(1, person.getName());
+            preparedStatement.setLong(2, person.getId());
+
+            preparedStatement.executeUpdate();
+
+            this.getAll(true);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

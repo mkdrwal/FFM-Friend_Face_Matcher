@@ -22,9 +22,9 @@ public class ThumbnailService {
 
             float divider;
             if (originalImage.getWidth() > originalImage.getHeight()) {
-                divider = originalImage.getWidth() / 200;
+                divider = (float) originalImage.getWidth() / (float) 200;
             } else {
-                divider = originalImage.getHeight() / 200;
+                divider = (float) originalImage.getHeight() / (float) 200;
             }
 
             int width = (int) (originalImage.getWidth() / divider);

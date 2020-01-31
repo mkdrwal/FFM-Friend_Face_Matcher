@@ -89,7 +89,18 @@ public class FaceDAO implements Dao<Face> {
 
     @Override
     public void update(Face face) {
+        String sql = "UPDATE face set personId = ? WHERE id = ?";
 
+        try {
+            PreparedStatement preparedStatement = this.databaseService.getConnection().prepareStatement(sql);
+            preparedStatement.setLong(1, face.getPersonId());
+            preparedStatement.setLong(2, face.getId());
+
+            preparedStatement.executeUpdate();
+            this.getAll(true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
