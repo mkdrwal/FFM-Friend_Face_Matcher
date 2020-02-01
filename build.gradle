@@ -47,4 +47,16 @@ jar {
     manifest {
         attributes 'Main-Class': 'dev.mateuszkowalczyk.ffm.Main'
     }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'dev.mateuszkowalczyk.ffm.Main'
+    }
+    classifier = 'all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }
