@@ -1,0 +1,50 @@
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.5'
+    id 'java'
+    id 'maven'
+//    id 'opencv'
+}
+//include ':libs:openCv'
+
+
+mainClassName = 'dev.mateuszkowalczyk.ffm.Main'
+group = 'dev.mateuszkowalczyk.ffm'
+version = '1.0'
+description = "FFM-Friend_Face_Matching"
+sourceCompatibility = 11
+targetCompatibility = 11
+
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+javafx {
+    version = "11"
+    modules = [ 'javafx.controls', 'javafx.fxml']
+}
+
+
+repositories {
+     maven { url "https://repo.maven.apache.org/maven2" }
+    flatDir {
+        dirs 'libs'
+    }
+}
+dependencies {
+    compile group: 'org.openjfx', name: 'javafx', version:'11'
+    compile group: 'org.openjfx', name: 'javafx-controls', version:'11'
+    compile group: 'org.openjfx', name: 'javafx-fxml', version:'11'
+    compile group: 'org.xerial', name: 'sqlite-jdbc', version:'3.28.0'
+    compile fileTree(dir: 'libs/openCv', include: ['*.jar'])
+//    compile group: 'opencvjar', name: 'opencvjar', version:'4.1.0'
+//    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter', version:'5.5.2'
+//    system group: 'org.opencv', name: 'opencv-jar', version:'4.1.0'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'dev.mateuszkowalczyk.ffm.Main'
+    }
+}
