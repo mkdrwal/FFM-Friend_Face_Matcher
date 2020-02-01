@@ -3,11 +3,14 @@ package dev.mateuszkowalczyk.ffm.view.workspace;
 import dev.mateuszkowalczyk.ffm.app.WorkspaceService;
 import dev.mateuszkowalczyk.ffm.data.database.person.Person;
 import dev.mateuszkowalczyk.ffm.utils.ResourceLoader;
+import dev.mateuszkowalczyk.ffm.view.SceneEnum;
+import dev.mateuszkowalczyk.ffm.view.StageController;
 import dev.mateuszkowalczyk.ffm.view.workspace.elements.ElementsEnum;
 import dev.mateuszkowalczyk.ffm.view.workspace.elements.FaceContainerController;
 import dev.mateuszkowalczyk.ffm.view.workspace.elements.ImageContainerController;
 import dev.mateuszkowalczyk.ffm.view.workspace.elements.PeopleContainerController;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -77,5 +80,13 @@ public class MainPageController implements Initializable {
     public void showPhotosForPerson(Person person) {
         this.person = person;
         this.setElement(ElementsEnum.ImagesContainerForPerson);
+    }
+
+    public void cleanAppStart(Event event) {
+        try {
+            StageController.getInstance().setScene(SceneEnum.WelcomePage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
